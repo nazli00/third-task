@@ -1,0 +1,150 @@
+using System;
+
+class Point
+{
+    private int x;
+    private int y;
+
+    public Point()
+    {
+        this.x = 0;
+        this.y=0;
+    }
+
+    public Point(int x, int y)
+    {
+        this.x = x;
+        this.y = y;
+    }
+
+    public void ShowData(int x, int y)
+    { 
+        Console.WriteLine($"X = {this.x}");
+        Console.WriteLine($"Y = {this.y}");
+    }
+}
+class Counter
+{
+    private int min;
+    private int max;
+    private int currentValue;
+
+    public Counter(int min, int max)
+    {
+        this.min = min;
+        this.max = max;
+        this.currentValue = min;
+    }
+
+    public void Increment()
+    {
+        if (currentValue < max)
+        {
+            currentValue++;
+        }
+        else
+        {
+            Console.WriteLine("Counter reached its maximum value.");
+        }
+    }
+
+    public void Decrement()
+    {
+        if (currentValue > min)
+        {
+            currentValue--;
+        }
+        else
+        {
+            Console.WriteLine("Counter reached its minimum value.");
+        }
+    }
+    public int GetCurrentData()
+    {
+        return currentValue;
+    }
+}
+class Fraction
+{
+    private int numerator;
+    private int denominator;
+
+    public Fraction(int numerator, int denominator)
+    {
+        if (denominator == 0)
+            throw new ArgumentException("Denominator cannot be zero.");
+
+        this.numerator = numerator;
+        this.denominator = denominator;
+    }
+
+    public static Fraction operator +(Fraction a, Fraction b)
+    {
+        int commonDenominator = a.denominator * b.denominator;
+        int newNumerator = a.numerator * b.denominator + b.numerator * a.denominator;
+        return new Fraction(newNumerator, commonDenominator);
+    }
+
+    public static Fraction operator -(Fraction a, Fraction b)
+    {
+        int commonDenominator = a.denominator * b.denominator;
+        int newNumerator = a.numerator * b.denominator - b.numerator * a.denominator;
+        return new Fraction(newNumerator, commonDenominator);
+    }
+
+    public static Fraction operator *(Fraction a, Fraction b)
+    {
+        int newNumerator = a.numerator * b.numerator;
+        int newDenominator = a.denominator * b.denominator;
+        return new Fraction(newNumerator, newDenominator);
+    }
+
+    public static Fraction operator /(Fraction a, Fraction b)
+    {
+        if (b.numerator == 0)
+            throw new DivideByZeroException("Cannot divide by zero.");
+
+        int newNumerator = a.numerator * b.denominator;
+        int newDenominator = a.denominator * b.numerator;
+        return new Fraction(newNumerator, newDenominator);
+    }
+
+    public override string ToString()
+    {
+        if (denominator == 1)
+            return numerator.ToString();
+        return numerator + "/" + denominator;
+    }
+}
+
+class Program
+{
+    static void Main()
+    {
+        int x = 5;
+        int y = 10;
+
+        Point point = new Point(x, y); 
+
+        Console.WriteLine("Point 2 Data:");
+        point.ShowData(x,y);
+
+        Fraction fraction1 = new Fraction(1, 2);
+        Fraction fraction2 = new Fraction(3, 4);
+
+        Console.WriteLine("Fraction 1: " + fraction1);
+        Console.WriteLine("Fraction 2: " + fraction2);
+
+        Fraction sum = fraction1 + fraction2;
+        Console.WriteLine("Sum: " + sum);
+
+        Fraction difference = fraction1 - fraction2;
+        Console.WriteLine("Difference: " + difference);
+
+        Fraction product = fraction1 * fraction2;
+        Console.WriteLine("Product: " + product);
+
+        Fraction quotient = fraction1 / fraction2;
+        Console.WriteLine("Quotient: " + quotient);
+    }
+}
